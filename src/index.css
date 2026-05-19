@@ -7,6 +7,12 @@
   
   --color-brand-green: #22c55e; /* Brighter green: Tailwind green-500 */
   --color-matrix-green: #00ff41;
+
+  --color-app-bg: var(--app-bg, #050505);
+  --color-app-surface: var(--app-surface, #0a0a0a);
+  --color-app-text: var(--app-text, #ffffff);
+  --color-app-text-muted: var(--app-text-muted, #9ca3af);
+  --color-app-border: var(--app-border, rgba(255, 255, 255, 0.1));
 }
 
 @layer utilities {
@@ -16,8 +22,24 @@
 }
 
 @layer base {
+  :root {
+    --app-bg: #050505;
+    --app-surface: #0a0a0a;
+    --app-text: #ffffff;
+    --app-text-muted: #9ca3af;
+    --app-border: rgba(255, 255, 255, 0.05);
+  }
+
+  .light {
+    --app-bg: #f8fafc;
+    --app-surface: #ffffff;
+    --app-text: #0f172a;
+    --app-text-muted: #475569;
+    --app-border: rgba(0, 0, 0, 0.05);
+  }
+
   body {
-    @apply bg-[#050505] text-white antialiased;
+    @apply bg-app-bg text-app-text antialiased transition-colors duration-300;
   }
 }
 

@@ -46,7 +46,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onFinished }) => {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="fixed inset-0 z-[100] bg-[#050505] flex items-center justify-center p-6"
+      className="fixed inset-0 z-[100] bg-app-bg flex items-center justify-center p-6"
     >
       <div className="relative">
         <motion.div

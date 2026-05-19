@@ -33,8 +33,8 @@ const GlitchText: React.FC<GlitchTextProps> = ({ text, className = "" }) => {
   useEffect(() => {
     const trigger = () => {
       setIsGlitching(true);
-      setTimeout(() => setIsGlitching(false), 200 + Math.random() * 300);
-      setTimeout(trigger, 3000 + Math.random() * 5000);
+      setTimeout(() => setIsGlitching(false), 150 + Math.random() * 150); // Shorter glitch duration
+      setTimeout(trigger, 5000 + Math.random() * 8000); // Longer pause between glitches
     };
 
     const initialTimeout = setTimeout(trigger, 2000);

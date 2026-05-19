@@ -23,10 +23,11 @@ const MatrixRain = () => {
     }
 
     const draw = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      const isLight = document.documentElement.classList.contains('light');
+      ctx.fillStyle = isLight ? 'rgba(248, 250, 252, 0.05)' : 'rgba(5, 5, 5, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#0F0'; // Matrix Green
+      ctx.fillStyle = isLight ? '#22c55e' : '#0F0'; // Brand Green vs Matrix Green
       ctx.font = fontSize + 'px monospace';
 
       for (let i = 0; i < drops.length; i++) {

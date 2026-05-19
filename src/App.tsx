@@ -15,7 +15,9 @@ import {
   Cpu,
   QrCode,
   ArrowLeft,
-  BarChart3
+  BarChart3,
+  Sun,
+  Moon
 } from "lucide-react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
@@ -26,6 +28,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import TerminalView from "./components/Terminal";
 import TrucoGame from "./components/TrucoGame";
 import GlitchText from "./components/GlitchText";
+import GlitchButton from "./components/GlitchButton";
 import { useSound } from "./hooks/useSound";
 
 // Hook to scroll to top on route change
@@ -122,13 +125,34 @@ function Home() {
 
   const { playSound } = useSound();
   const [soundsEnabled, setSoundsEnabled] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme');
+      return (saved as 'dark' | 'light') || 'dark';
+    }
+    return 'dark';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    if (soundsEnabled) playSound('click');
+  };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-brand-green/30 pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-app-bg text-app-text font-sans selection:bg-brand-green/30 pb-24 relative overflow-hidden">
       <MatrixRain />
       <TrucoGame />
       <TerminalView />
-      <div className="fixed inset-x-0 bottom-0 h-full w-full scanline-overlay pointer-events-none z-50 mix-blend-overlay opacity-50" />
+      <div className={`fixed inset-x-0 bottom-0 h-full w-full scanline-overlay pointer-events-none z-50 mix-blend-overlay opacity-50 ${theme === 'light' ? 'hidden' : ''}`} />
       
       {/* Progress Bar */}
       <motion.div
@@ -136,14 +160,21 @@ function Home() {
         style={{ scaleX }}
       />
 
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-5xl px-8 py-5 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-3xl flex justify-between items-center shadow-2xl">
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-5xl px-8 py-5 bg-app-surface/30 backdrop-blur-2xl border border-app-border rounded-3xl flex justify-between items-center shadow-2xl">
         <div className="flex items-center gap-4">
           <div className="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center">
             <span className="text-black font-black text-xs">LB</span>
           </div>
           <span translate="no" className="font-display font-black text-sm tracking-[0.2em] uppercase">Lucas Barrera</span>
         </div>
-        <div className="flex gap-3 md:gap-4">
+        <div className="flex items-center gap-3 md:gap-4">
+          <button 
+            onClick={toggleTheme}
+            className={`flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-app-surface/50 border border-app-border rounded-xl transition-all text-app-text-muted hover:text-app-text`}
+            title={theme === 'dark' ? "Modo Claro" : "Modo Oscuro"}
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
           <button 
             onClick={() => {
               setSoundsEnabled(!soundsEnabled);
@@ -182,46 +213,52 @@ function Home() {
         {/* HERO SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 mb-6">
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            className="lg:col-span-12 bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="lg:col-span-12 bg-app-surface border border-app-border rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16"
           >
             <div className="relative z-10 max-w-3xl w-full">
               <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-6 md:mb-8">
-                <span className="px-3 md:px-4 py-1 md:py-1.5 bg-white/5 text-neutral-400 text-[9px] md:text-[10px] font-bold tracking-widest rounded-full border border-white/10 uppercase">Pinamar, Argentina</span>
+                <span className="px-3 md:px-4 py-1 md:py-1.5 bg-app-surface/50 text-app-text-muted text-[9px] md:text-[10px] font-bold tracking-widest rounded-full border border-app-border uppercase">Pinamar, Argentina</span>
                 <div className="flex items-center gap-2 px-2.5 md:px-3 py-1 bg-brand-green/10 rounded-full border border-brand-green/20">
                   <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-brand-green animate-pulse" />
                   <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-brand-green">Disponible</span>
                 </div>
               </div>
-              <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words text-glow">
+              <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words text-glow text-app-text">
                 <GlitchText text="LUCAS" /> <br />
-                <span className="text-matrix-green/30"><GlitchText text="BARRERA" /></span>
+                <span className="text-matrix-green/30 opacity-50"><GlitchText text="BARRERA" /></span>
               </h1>
-              <p className="text-lg md:text-2xl text-neutral-400 font-light max-w-xl leading-relaxed">
-                Profesional con experiencia en atención al público y operaciones dinámicas en entornos de alta demanda. Me destaco por mi <span className="text-white font-medium">adaptación rápida y capacidad resolutiva</span>, combinando la empatía de la atención personalizada con la agilidad digital para crear <span className="text-white font-medium">conexiones reales</span> y superar expectativas en cada detalle.
+              <p className="text-lg md:text-2xl text-app-text-muted font-light max-w-xl leading-relaxed">
+                Profesional con experiencia en atención al público y operaciones dinámicas en entornos de alta demanda. Me destaco por mi <span className="text-app-text font-medium">adaptación rápida y capacidad resolutiva</span>, combinando la empatía de la atención personalizada con la agilidad digital para crear <span className="text-app-text font-medium">conexiones reales</span> y superar expectativas en cada detalle.
               </p>
             </div>
 
             <div className="relative z-10 flex flex-col gap-6 md:gap-8 w-full md:w-auto md:min-w-[320px]">
-              <div className="p-6 md:p-8 bg-white/[0.02] border border-white/5 rounded-2xl md:rounded-3xl backdrop-blur-xl">
+              <div className="p-6 md:p-8 bg-app-surface border border-app-border rounded-2xl md:rounded-3xl backdrop-blur-xl">
                  <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-brand-green mb-4 md:mb-6">Información</p>
                  <div className="space-y-4">
-                    <a href="mailto:Ale.2020.caba@gmail.com" className="flex flex-col group/item transition-colors hover:bg-white/5 p-2 rounded-xl -m-2">
-                       <span className="text-[9px] md:text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-1 italic">Mail</span>
-                       <span className="text-xs md:text-sm font-mono text-neutral-200 group-hover/item:text-brand-green transition-colors break-all">Ale.2020.caba@gmail.com</span>
+                    <a href="mailto:Ale.2020.caba@gmail.com" className="flex flex-col group/item transition-colors hover:bg-app-surface/50 p-2 rounded-xl -m-2">
+                       <span className="text-[9px] md:text-[10px] font-bold text-app-text-muted/60 uppercase tracking-widest mb-1 italic">Mail</span>
+                       <span className="text-xs md:text-sm font-mono text-app-text-muted group-hover/item:text-brand-green transition-colors break-all">Ale.2020.caba@gmail.com</span>
                     </a>
-                    <a href="tel:5492254535810" className="flex flex-col group/item transition-colors hover:bg-white/5 p-2 rounded-xl -m-2">
-                       <span className="text-[9px] md:text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-1 italic">Teléfono</span>
-                       <span className="text-xs md:text-sm font-mono text-neutral-200 group-hover/item:text-brand-green transition-colors">2254 53-5810</span>
+                    <a href="tel:5492254535810" className="flex flex-col group/item transition-colors hover:bg-app-surface/50 p-2 rounded-xl -m-2">
+                       <span className="text-[9px] md:text-[10px] font-bold text-app-text-muted/60 uppercase tracking-widest mb-1 italic">Teléfono</span>
+                       <span className="text-xs md:text-sm font-mono text-app-text-muted group-hover/item:text-brand-green transition-colors">2254 53-5810</span>
                     </a>
                  </div>
               </div>
-              <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" className="w-full h-16 md:h-20 bg-brand-green text-black rounded-2xl md:rounded-[2rem] flex items-center justify-center gap-3 md:gap-4 font-black uppercase tracking-widest text-xs md:text-sm hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all group">
+              <GlitchButton 
+                href="https://wa.me/5492254535810" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-full h-16 md:h-20 bg-brand-green text-black rounded-2xl md:rounded-[2rem] flex items-center justify-center font-black uppercase tracking-widest text-xs md:text-sm hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all group shadow-lg shadow-brand-green/20"
+              >
                 <WhatsAppIcon size={20} className="md:w-6 md:h-6" />
                 <span>Contactar Ahora</span>
                 <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
+              </GlitchButton>
             </div>
 
             {/* Background Gradient */}
@@ -233,41 +270,42 @@ function Home() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-6">
           {/* Vision */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="md:col-span-12 lg:col-span-7 bg-[#0a0a0a] border border-white/5 rounded-3xl md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-center group relative overflow-hidden"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="md:col-span-12 lg:col-span-7 bg-app-surface border border-app-border rounded-3xl md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-center group relative overflow-hidden"
           >
              <div className="absolute top-0 right-0 p-6 md:p-8 opacity-5 group-hover:opacity-20 transition-opacity">
-                <Briefcase size={80} className="w-16 h-16 md:w-20 md:h-20" />
+                <Briefcase size={80} className="w-16 h-16 md:w-20 md:h-20 text-brand-green" />
              </div>
              <h3 className="text-brand-green text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] mb-6 md:mb-10">Visión Proactiva</h3>
-             <p className="text-xl md:text-3xl leading-snug text-neutral-200 font-light italic">
-               "Complemento mi experiencia práctica con conocimientos en <span className="text-white font-medium italic">desarrollo de software e inteligencia artificial aplicada</span>, aportando herramientas modernas para optimizar procesos y resolver problemas eficientemente."
+             <p className="text-xl md:text-3xl leading-snug text-app-text font-light italic">
+               "Complemento mi experiencia práctica con conocimientos en <span className="text-brand-green font-medium italic">desarrollo de software e inteligencia artificial aplicada</span>, aportando herramientas modernas para optimizar procesos y resolver problemas eficientemente."
              </p>
           </motion.div>
 
           {/* Languages */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="md:col-span-12 lg:col-span-5 bg-[#0a0a0a] border border-white/5 rounded-3xl md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-between hover:border-brand-green/30 transition-all duration-500 group"
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            className="md:col-span-12 lg:col-span-5 bg-app-surface border border-app-border rounded-3xl md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-between hover:border-brand-green/30 transition-all duration-500 group"
           >
-             <div className="w-12 h-12 md:w-14 md:h-14 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-brand-green group-hover:text-black transition-all mb-8 lg:mb-0">
+             <div className="w-12 h-12 md:w-14 md:h-14 bg-app-surface/50 rounded-xl md:rounded-2xl flex items-center justify-center border border-app-border group-hover:bg-brand-green group-hover:text-black transition-all mb-8 lg:mb-0">
                 <Globe size={28} className="w-6 h-6 md:w-7 md:h-7" />
              </div>
              <div className="space-y-4">
                <h4 className="font-display font-black text-xl md:text-2xl uppercase tracking-tighter italic">Idiomas</h4>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-                 <div className="p-4 bg-white/5 rounded-xl md:rounded-2xl border border-white/5">
+                 <div className="p-4 bg-app-surface/50 rounded-xl md:rounded-2xl border border-app-border">
                     <p className="text-[9px] md:text-[10px] font-black text-brand-green uppercase tracking-widest mb-1">Español</p>
-                    <p className="text-xs font-bold text-neutral-400">Nativo</p>
+                    <p className="text-xs font-bold text-app-text-muted">Nativo</p>
                  </div>
-                 <div className="p-4 bg-white/5 rounded-xl md:rounded-2xl border border-white/5">
-                    <p className="text-[9px] md:text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-1">Inglés</p>
-                    <p className="text-xs font-bold text-neutral-400">Competente</p>
+                 <div className="p-4 bg-app-surface/50 rounded-xl md:rounded-2xl border border-app-border">
+                    <p className="text-[9px] md:text-[10px] font-black text-app-text-muted uppercase tracking-widest mb-1">Inglés</p>
+                    <p className="text-xs font-bold text-app-text-muted">Competente</p>
                  </div>
                </div>
              </div>
@@ -287,21 +325,21 @@ function Home() {
               {experiences.map((exp, i) => (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
                   className="group relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-brand-green/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem] -z-10 blur-xl" />
-                  <div className="flex flex-col md:flex-row md:items-center justify-between p-8 bg-white/[0.02] border border-white/5 rounded-[2rem] hover:bg-white/[0.05] hover:border-brand-green/30 transition-all duration-500 backdrop-blur-sm">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between p-8 bg-app-surface/50 border border-app-border rounded-[2rem] hover:bg-app-surface/80 hover:border-brand-green/30 transition-all duration-500 backdrop-blur-sm">
                     <div className="flex items-start gap-6">
                       <div className="mt-1 w-2 h-2 rounded-full bg-brand-green opacity-40 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500" />
                       <div className="flex flex-col">
-                        <h4 translate="no" className="text-xl font-bold tracking-tight text-neutral-300 group-hover:text-white transition-colors">
+                        <h4 translate="no" className="text-xl font-bold tracking-tight text-app-text-muted group-hover:text-app-text transition-colors">
                           {exp.name}
                         </h4>
-                        <p className="text-sm font-medium text-neutral-500 italic mt-1 group-hover:text-neutral-400 transition-colors">
+                        <p className="text-sm font-medium text-app-text-muted/60 italic mt-1 group-hover:text-app-text-muted transition-colors">
                           {exp.role}
                         </p>
                       </div>
@@ -310,7 +348,7 @@ function Home() {
                       <div className="px-4 py-1.5 bg-brand-green/5 border border-brand-green/10 rounded-full text-[10px] font-mono font-bold text-brand-green/80 group-hover:text-brand-green transition-colors">
                         {exp.years}
                       </div>
-                      <ArrowUpRight className="text-neutral-600 group-hover:text-brand-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-500" size={18} />
+                      <ArrowUpRight className="text-app-text-muted/40 group-hover:text-brand-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-500" size={18} />
                     </div>
                   </div>
                 </motion.div>
@@ -329,18 +367,18 @@ function Home() {
                 {skillCards.map((skill, i) => (
                   <motion.div 
                     key={skill.name}
-                    className="group bg-neutral-900/40 border border-white/5 p-6 rounded-[2rem] hover:bg-neutral-900/60 transition-all relative overflow-hidden"
+                    className="group bg-app-surface/80 border border-app-border p-6 rounded-[2rem] hover:bg-app-surface transition-all relative overflow-hidden shadow-lg"
                     whileHover={{ scale: 1.02 }}
                   >
                     <div className="flex justify-between items-center mb-4">
                        <div className="flex items-center gap-3">
                           <div className="text-brand-green opacity-80 group-hover:opacity-100 transition-opacity">{skill.icon}</div>
-                          <span className="text-sm font-bold tracking-tight uppercase text-neutral-300 group-hover:text-white transition-colors">{skill.name}</span>
+                          <span className="text-sm font-bold tracking-tight uppercase text-app-text-muted group-hover:text-app-text transition-colors">{skill.name}</span>
                        </div>
                        <span translate="no" className="text-xs font-mono font-bold text-brand-green">{skill.value}%</span>
                     </div>
                     
-                    <div className="h-1.5 w-full bg-black/50 rounded-full overflow-hidden mb-4">
+                    <div className="h-1.5 w-full bg-app-bg/50 rounded-full overflow-hidden mb-4 border border-app-border">
                        <motion.div 
                           initial={{ width: 0 }}
                           whileInView={{ width: `${skill.value}%` }}
@@ -355,7 +393,7 @@ function Home() {
                       whileHover={{ opacity: 1, height: "auto" }}
                       className="overflow-hidden"
                     >
-                      <p className="text-[11px] leading-relaxed text-neutral-500 font-medium italic pt-2 border-t border-white/5">
+                      <p className="text-[11px] leading-relaxed text-app-text-muted/70 font-medium italic pt-2 border-t border-app-border">
                         {skill.description}
                       </p>
                     </motion.div>
@@ -368,10 +406,10 @@ function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.02 }}
-                className="bg-white/5 border border-white/10 p-10 rounded-[2.5rem] mt-8 relative overflow-hidden"
+                className="bg-app-surface border border-app-border p-10 rounded-[2.5rem] mt-8 relative overflow-hidden shadow-xl"
               >
                   <div className="relative z-10">
-                    <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-4">¿Por qué yo?</p>
+                    <p className="text-xs font-bold text-app-text-muted opacity-60 uppercase tracking-widest mb-4">¿Por qué yo?</p>
                     <p className="text-lg font-medium leading-relaxed">
                       Además del trabajo operativo, puedo colaborar en <span className="text-brand-green">digitalización, organización interna, optimización de procesos</span> y adopción de herramientas tecnológicas simples.
                     </p>
@@ -387,17 +425,17 @@ function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="mt-24 border-t border-white/5 py-12 px-6 bg-[#0a0a0a]"
+        className="mt-24 border-t border-app-border py-12 px-6 bg-app-surface"
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
            <div className="flex flex-col items-center md:items-start gap-2">
              <span className="font-display font-black text-2xl tracking-tighter">CV LUCAS</span>
-             <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30">Partido de Pinamar · 2026</p>
+             <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic">Partido de Pinamar · 2026</p>
            </div>
            
            <div className="flex gap-10 text-[10px] font-black uppercase tracking-[0.3em]">
               <a href="mailto:Ale.2020.caba@gmail.com" className="hover:text-brand-green transition-colors py-2 border-b border-transparent hover:border-brand-green">Email</a>
-              <a href="https://wa.me/5492254535810" className="hover:text-brand-green transition-colors py-2 border-b border-transparent hover:border-brand-green">WhatsApp</a>
+              <a href="https://wa.me/5492254535810" className="hover:text-brand-green transition-colors py-2 border-b border-transparent hover:border-brand-green text-app-text-muted">WhatsApp</a>
            </div>
         </div>
       </motion.footer>
@@ -409,10 +447,9 @@ function QRPage() {
   const url = "https://curr-culum-theta.vercel.app/";
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 selection:bg-brand-green/30 relative overflow-hidden">
+    <div className="min-h-screen bg-app-bg text-app-text flex flex-col items-center justify-center p-6 selection:bg-brand-green/30 relative overflow-hidden">
       <MatrixRain />
-      <div className="fixed inset-x-0 bottom-0 h-full w-full scanline-overlay pointer-events-none z-50 mix-blend-overlay opacity-30" />
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-lg px-8 py-5 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-3xl flex justify-between items-center">
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-lg px-8 py-5 bg-app-surface/30 backdrop-blur-2xl border border-app-border rounded-3xl flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:text-brand-green transition-colors">
           <ArrowLeft size={16} /> Volver
         </Link>
@@ -422,13 +459,13 @@ function QRPage() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-center relative overflow-hidden"
+        className="w-full max-w-md bg-app-surface border border-app-border rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-center relative overflow-hidden shadow-2xl"
       >
         <div className="relative z-10">
           <h2 className="text-3xl md:text-4xl font-display font-black tracking-tighter mb-4 italic">ACCESO <span className="text-brand-green">DIRECTO</span></h2>
-          <p className="text-neutral-500 text-xs md:text-sm font-medium mb-8 md:mb-12">Escanea el código para ver mi trayectoria completa y portafolio digital.</p>
+          <p className="text-app-text-muted text-xs md:text-sm font-medium mb-8 md:mb-12">Escanea el código para ver mi trayectoria completa y portafolio digital.</p>
           
-          <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl inline-block shadow-[0_0_50px_rgba(34,197,94,0.15)] mb-8 md:mb-12">
+          <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl inline-block shadow-[0_0_50px_rgba(34,197,94,0.15)] mb-8 md:mb-12 border border-app-border">
             <QRCodeSVG 
               value={url} 
               size={200} 
