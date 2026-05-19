@@ -89,7 +89,7 @@ function Home() {
           <div className="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center">
             <span className="text-black font-black text-xs">LB</span>
           </div>
-          <span className="font-display font-black text-sm tracking-[0.2em] uppercase">Lucas Barrera</span>
+          <span translate="no" className="font-display font-black text-sm tracking-[0.2em] uppercase">Lucas Barrera</span>
         </div>
         <div className="flex gap-3 md:gap-4">
           <Link to="/qr" title="Ver QR" className="flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all text-neutral-400 hover:text-white">
@@ -118,12 +118,12 @@ function Home() {
                   <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-brand-green">Disponible</span>
                 </div>
               </div>
-              <h1 className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words">
+              <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words">
                 LUCAS <br />
                 <span className="text-white/20">BARRERA</span>
               </h1>
               <p className="text-lg md:text-2xl text-neutral-400 font-light max-w-xl leading-relaxed">
-                Especialista en <span className="text-white font-medium">Experiencia Cliente Premium</span> y Estrategias Digitales de Alto Rendimiento.
+                Elevando los estándares de <span className="text-white font-medium">atención al cliente</span> mediante la fusión estratégica de servicio premium y soluciones operativas de vanguardia.
               </p>
             </div>
 
@@ -222,7 +222,7 @@ function Home() {
                     <div className="flex items-start gap-6">
                       <div className="mt-1 w-2 h-2 rounded-full bg-brand-green opacity-40 group-hover:opacity-100 group-hover:scale-150 transition-all duration-500" />
                       <div className="flex flex-col">
-                        <h4 className="text-xl font-bold tracking-tight text-neutral-300 group-hover:text-white transition-colors">
+                        <h4 translate="no" className="text-xl font-bold tracking-tight text-neutral-300 group-hover:text-white transition-colors">
                           {exp.name}
                         </h4>
                         <p className="text-sm font-medium text-neutral-500 italic mt-1 group-hover:text-neutral-400 transition-colors">
@@ -371,7 +371,7 @@ function QRPage() {
       </motion.div>
 
       <footer className="mt-12 text-center">
-        <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic">Lucas Barrera · Digital Asset</p>
+        <p translate="no" className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic">Lucas Barrera · Digital Asset</p>
       </footer>
     </div>
   );
