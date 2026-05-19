@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring } from "motion/react";
+import { motion, useScroll, useSpring, AnimatePresence } from "motion/react";
 import { 
   Mail, 
   Phone, 
@@ -14,11 +14,15 @@ import {
   Terminal,
   Cpu,
   QrCode,
-  ArrowLeft
+  ArrowLeft,
+  BarChart3
 } from "lucide-react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import MatrixRain from "./MatrixRain";
+import LoadingScreen from "./components/LoadingScreen";
 
 // Hook to scroll to top on route change
 function ScrollToTop() {
@@ -47,12 +51,48 @@ const experiences = [
 ];
 
 const skillCards = [
-  { name: "Atención al público", value: 90, icon: <User size={20} /> },
-  { name: "Trabajo en equipo", value: 92, icon: <Globe size={20} /> },
-  { name: "Responsabilidad", value: 95, icon: <Briefcase size={20} /> },
-  { name: "Comunicación", value: 88, icon: <MessageCircle size={20} /> },
-  { name: "Desarrollo Software", value: 88, icon: <Code size={20} /> },
-  { name: "Inteligencia Artificial", value: 83, icon: <Cpu size={20} /> },
+  { 
+    name: "Atención al público", 
+    value: 90, 
+    icon: <User size={20} />,
+    description: "Experiencia avanzada en trato directo, resolución de conflictos y fidelización."
+  },
+  { 
+    name: "Trabajo en equipo", 
+    value: 92, 
+    icon: <Globe size={20} />,
+    description: "Colaboración efectiva en entornos dinámicos y de alto volumen operativo."
+  },
+  { 
+    name: "Responsabilidad", 
+    value: 95, 
+    icon: <Briefcase size={20} />,
+    description: "Compromiso total con los objetivos, puntualidad y estándares de calidad."
+  },
+  { 
+    name: "Comunicación", 
+    value: 88, 
+    icon: <MessageCircle size={20} />,
+    description: "Habilidades interpersonales claras para coordinar equipos y atender clientes."
+  },
+  { 
+    name: "Desarrollo Software", 
+    value: 88, 
+    icon: <Code size={20} />,
+    description: "Creación de soluciones digitales y automatizaciones para mejora de procesos."
+  },
+  { 
+    name: "Inteligencia Artificial", 
+    value: 83, 
+    icon: <Cpu size={20} />,
+    description: "Implementación de herramientas de IA para optimizar la productividad."
+  },
+  { 
+    name: "Gestión de Proyectos Digitales", 
+    value: 85, 
+    icon: <BarChart3 size={20} />,
+    description: "Coordinación de lanzamientos y estrategias digitales integrales."
+  },
 ];
 
 const WhatsAppIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
@@ -77,7 +117,10 @@ function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-brand-green/30 pb-24">
+    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-brand-green/30 pb-24 relative overflow-hidden">
+      <MatrixRain />
+      <div className="fixed inset-x-0 bottom-0 h-full w-full scanline-overlay pointer-events-none z-50 mix-blend-overlay opacity-50" />
+      
       {/* Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-brand-green z-50 origin-left"
@@ -118,9 +161,9 @@ function Home() {
                   <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-brand-green">Disponible</span>
                 </div>
               </div>
-              <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words">
+              <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words text-glow">
                 LUCAS <br />
-                <span className="text-white/20">BARRERA</span>
+                <span className="text-matrix-green/30">BARRERA</span>
               </h1>
               <p className="text-lg md:text-2xl text-neutral-400 font-light max-w-xl leading-relaxed">
                 Comprometido con crear <span className="text-white font-medium">conexiones reales</span> a través del servicio. Combino la empatía de la atención personalizada con la agilidad digital para superar expectativas en cada detalle.
@@ -253,23 +296,36 @@ function Home() {
                 {skillCards.map((skill, i) => (
                   <motion.div 
                     key={skill.name}
-                    className="bg-neutral-900/40 border border-white/5 p-6 rounded-[2rem] hover:bg-neutral-900/60 transition-colors"
+                    className="group bg-neutral-900/40 border border-white/5 p-6 rounded-[2rem] hover:bg-neutral-900/60 transition-all relative overflow-hidden"
+                    whileHover={{ scale: 1.02 }}
                   >
                     <div className="flex justify-between items-center mb-4">
                        <div className="flex items-center gap-3">
-                          <div className="text-brand-green opacity-80">{skill.icon}</div>
-                          <span className="text-sm font-bold tracking-tight uppercase text-neutral-300">{skill.name}</span>
+                          <div className="text-brand-green opacity-80 group-hover:opacity-100 transition-opacity">{skill.icon}</div>
+                          <span className="text-sm font-bold tracking-tight uppercase text-neutral-300 group-hover:text-white transition-colors">{skill.name}</span>
                        </div>
                        <span className="text-xs font-mono font-bold text-brand-green">{skill.value}%</span>
                     </div>
-                    <div className="h-1.5 w-full bg-black/50 rounded-full overflow-hidden">
+                    
+                    <div className="h-1.5 w-full bg-black/50 rounded-full overflow-hidden mb-4">
                        <motion.div 
                           initial={{ width: 0 }}
                           whileInView={{ width: `${skill.value}%` }}
                           transition={{ duration: 1, ease: "circOut" }}
-                          className="h-full bg-brand-green"
+                          className="h-full bg-brand-green shadow-[0_0_10px_rgba(34,197,94,0.3)]"
                        />
                     </div>
+
+                    {/* Tooltip on hover */}
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      whileHover={{ opacity: 1, height: "auto" }}
+                      className="overflow-hidden"
+                    >
+                      <p className="text-[11px] leading-relaxed text-neutral-500 font-medium italic pt-2 border-t border-white/5">
+                        {skill.description}
+                      </p>
+                    </motion.div>
                   </motion.div>
                 ))}
               </div>
@@ -320,7 +376,9 @@ function QRPage() {
   const url = "https://curr-culum-theta.vercel.app/";
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 selection:bg-brand-green/30">
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 selection:bg-brand-green/30 relative overflow-hidden">
+      <MatrixRain />
+      <div className="fixed inset-x-0 bottom-0 h-full w-full scanline-overlay pointer-events-none z-50 mix-blend-overlay opacity-30" />
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-lg px-8 py-5 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-3xl flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:text-brand-green transition-colors">
           <ArrowLeft size={16} /> Volver
@@ -370,7 +428,8 @@ function QRPage() {
         <div className="absolute -top-1/2 -right-1/4 w-[400px] h-[400px] bg-brand-green/5 blur-[100px] rounded-full" />
       </motion.div>
 
-      <footer className="mt-12 text-center">
+      <footer className="mt-12 text-center space-y-4">
+        <div className="text-[9px] font-mono text-matrix-green/40">&gt; System initialized. Matrix connection stable.</div>
         <p translate="no" className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic">Lucas Barrera · Digital Asset</p>
       </footer>
     </div>
@@ -378,13 +437,27 @@ function QRPage() {
 }
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/qr" element={<QRPage />} />
-      </Routes>
+      <AnimatePresence mode="wait">
+        {loading && <LoadingScreen key="loader" onFinished={() => setLoading(false)} />}
+      </AnimatePresence>
+      
+      {!loading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/qr" element={<QRPage />} />
+          </Routes>
+        </motion.div>
+      )}
     </BrowserRouter>
   );
 }
