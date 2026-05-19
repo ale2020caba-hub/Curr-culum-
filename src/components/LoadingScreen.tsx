@@ -67,9 +67,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onFinished }) => {
           className="h-1 bg-brand-green mt-8 shadow-[0_0_15px_rgba(34,197,94,0.5)]"
         />
         
-        <div className="mt-4 flex justify-between font-mono text-[10px] text-matrix-green/40 uppercase tracking-widest">
-          <span>Decrypting identity...</span>
-          <span>Security level: High</span>
+        <div className="mt-4 text-center font-mono text-[10px] text-matrix-green/40 uppercase tracking-widest">
+          <span>Gracias por tomarse el tiempo de ver mi currículum</span>
         </div>
       </div>
       

@@ -304,7 +304,7 @@ function Home() {
                           <div className="text-brand-green opacity-80 group-hover:opacity-100 transition-opacity">{skill.icon}</div>
                           <span className="text-sm font-bold tracking-tight uppercase text-neutral-300 group-hover:text-white transition-colors">{skill.name}</span>
                        </div>
-                       <span className="text-xs font-mono font-bold text-brand-green">{skill.value}%</span>
+                       <span translate="no" className="text-xs font-mono font-bold text-brand-green">{skill.value}%</span>
                     </div>
                     
                     <div className="h-1.5 w-full bg-black/50 rounded-full overflow-hidden mb-4">
