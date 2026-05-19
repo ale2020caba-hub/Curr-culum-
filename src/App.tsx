@@ -55,6 +55,19 @@ const skillCards = [
   { name: "Inteligencia Artificial", value: 83, icon: <Cpu size={20} /> },
 ];
 
+const WhatsAppIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045c0 2.12.554 4.189 1.602 6.04L0 24l6.117-1.605a11.803 11.803 0 005.93 1.571h.005c6.634 0 12.045-5.411 12.048-12.047 0-3.214-1.252-6.234-3.528-8.51"/>
+  </svg>
+);
+
 function Home() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -78,11 +91,13 @@ function Home() {
           </div>
           <span className="font-display font-black text-sm tracking-[0.2em] uppercase">Lucas Barrera</span>
         </div>
-        <div className="flex gap-4">
-          <Link to="/qr" className="flex items-center justify-center w-10 h-10 bg-white/5 border border-white/10 rounded-xl hover:bg-brand-green hover:text-black transition-all">
-            <QrCode size={18} />
+        <div className="flex gap-3 md:gap-4">
+          <Link to="/qr" title="Ver QR" className="flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all text-neutral-400 hover:text-white">
+            <QrCode size={20} />
           </Link>
-          <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest px-6 py-2.5 bg-brand-green text-black rounded-xl hover:scale-105 transition-all">WhatsApp</a>
+          <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" title="Contactar por WhatsApp" className="flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-brand-green text-black rounded-xl hover:scale-105 active:scale-95 transition-all">
+            <WhatsAppIcon size={22} />
+          </a>
         </div>
       </nav>
 
@@ -127,7 +142,8 @@ function Home() {
                  </div>
               </div>
               <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" className="w-full h-16 md:h-20 bg-brand-green text-black rounded-2xl md:rounded-[2rem] flex items-center justify-center gap-3 md:gap-4 font-black uppercase tracking-widest text-xs md:text-sm hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                Contactar Ahora
+                <WhatsAppIcon size={20} className="md:w-6 md:h-6" />
+                <span>Contactar Ahora</span>
                 <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </a>
             </div>
