@@ -123,7 +123,7 @@ function Home() {
                 <span className="text-white/20">BARRERA</span>
               </h1>
               <p className="text-lg md:text-2xl text-neutral-400 font-light max-w-xl leading-relaxed">
-                Elevando los estándares de <span className="text-white font-medium">atención al cliente</span> mediante la fusión estratégica de servicio premium y soluciones operativas de vanguardia.
+                Comprometido con crear <span className="text-white font-medium">conexiones reales</span> a través del servicio. Combino la empatía de la atención personalizada con la agilidad digital para superar expectativas en cada detalle.
               </p>
             </div>
 
