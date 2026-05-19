@@ -19,10 +19,14 @@ import {
 } from "lucide-react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import MatrixRain from "./MatrixRain";
 import LoadingScreen from "./components/LoadingScreen";
+import TerminalView from "./components/Terminal";
+import TrucoGame from "./components/TrucoGame";
+import GlitchText from "./components/GlitchText";
+import { useSound } from "./hooks/useSound";
 
 // Hook to scroll to top on route change
 function ScrollToTop() {
@@ -116,9 +120,14 @@ function Home() {
     restDelta: 0.001
   });
 
+  const { playSound } = useSound();
+  const [soundsEnabled, setSoundsEnabled] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-brand-green/30 pb-24 relative overflow-hidden">
       <MatrixRain />
+      <TrucoGame />
+      <TerminalView />
       <div className="fixed inset-x-0 bottom-0 h-full w-full scanline-overlay pointer-events-none z-50 mix-blend-overlay opacity-50" />
       
       {/* Progress Bar */}
@@ -135,10 +144,34 @@ function Home() {
           <span translate="no" className="font-display font-black text-sm tracking-[0.2em] uppercase">Lucas Barrera</span>
         </div>
         <div className="flex gap-3 md:gap-4">
-          <Link to="/qr" title="Ver QR" className="flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all text-neutral-400 hover:text-white">
+          <button 
+            onClick={() => {
+              setSoundsEnabled(!soundsEnabled);
+              if (!soundsEnabled) playSound('success');
+            }}
+            title={soundsEnabled ? "Silenciar" : "Activar Sonido"}
+            className={`flex items-center justify-center w-10 md:w-12 h-10 md:h-12 border rounded-xl transition-all ${soundsEnabled ? 'bg-brand-green/20 border-brand-green text-brand-green' : 'bg-white/5 border-white/10 text-neutral-400 hover:text-white'}`}
+          >
+            {soundsEnabled ? <Zap size={20} className="animate-pulse" /> : <Zap size={20} className="opacity-30" />}
+          </button>
+          <Link 
+            to="/qr" 
+            onMouseEnter={() => soundsEnabled && playSound('hover')}
+            onClick={() => soundsEnabled && playSound('click')}
+            title="Ver QR" 
+            className="flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all text-neutral-400 hover:text-white"
+          >
             <QrCode size={20} />
           </Link>
-          <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" title="Contactar por WhatsApp" className="flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-brand-green text-black rounded-xl hover:scale-105 active:scale-95 transition-all">
+          <a 
+            href="https://wa.me/5492254535810" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            onMouseEnter={() => soundsEnabled && playSound('hover')}
+            onClick={() => soundsEnabled && playSound('click')}
+            title="Contactar por WhatsApp" 
+            className="flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-brand-green text-black rounded-xl hover:scale-105 active:scale-95 transition-all"
+          >
             <WhatsAppIcon size={22} />
           </a>
         </div>
@@ -162,11 +195,11 @@ function Home() {
                 </div>
               </div>
               <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words text-glow">
-                LUCAS <br />
-                <span className="text-matrix-green/30">BARRERA</span>
+                <GlitchText text="LUCAS" /> <br />
+                <span className="text-matrix-green/30"><GlitchText text="BARRERA" /></span>
               </h1>
               <p className="text-lg md:text-2xl text-neutral-400 font-light max-w-xl leading-relaxed">
-                Comprometido con crear <span className="text-white font-medium">conexiones reales</span> a través del servicio. Combino la empatía de la atención personalizada con la agilidad digital para superar expectativas en cada detalle.
+                Profesional con experiencia en atención al público y operaciones dinámicas en entornos de alta demanda. Me destaco por mi <span className="text-white font-medium">adaptación rápida y capacidad resolutiva</span>, combinando la empatía de la atención personalizada con la agilidad digital para crear <span className="text-white font-medium">conexiones reales</span> y superar expectativas en cada detalle.
               </p>
             </div>
 
@@ -210,7 +243,7 @@ function Home() {
              </div>
              <h3 className="text-brand-green text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] mb-6 md:mb-10">Visión Proactiva</h3>
              <p className="text-xl md:text-3xl leading-snug text-neutral-200 font-light italic">
-               "Liderazgo operativo con <span className="text-white font-medium italic">mentalidad digital</span>: transformando la atención al cliente a través de procesos inteligentes."
+               "Complemento mi experiencia práctica con conocimientos en <span className="text-white font-medium italic">desarrollo de software e inteligencia artificial aplicada</span>, aportando herramientas modernas para optimizar procesos y resolver problemas eficientemente."
              </p>
           </motion.div>
 
@@ -340,7 +373,7 @@ function Home() {
                   <div className="relative z-10">
                     <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-4">¿Por qué yo?</p>
                     <p className="text-lg font-medium leading-relaxed">
-                      Especializado en operaciones que requieren <span className="text-brand-green">rapidez y precisión</span>, con el valor agregado de un perfil tecnológico orientado a la digitalización de procesos.
+                      Además del trabajo operativo, puedo colaborar en <span className="text-brand-green">digitalización, organización interna, optimización de procesos</span> y adopción de herramientas tecnológicas simples.
                     </p>
                   </div>
                   <Cpu className="absolute -bottom-8 -right-8 opacity-5 text-brand-green" size={160} />
