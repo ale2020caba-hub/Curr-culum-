@@ -86,71 +86,71 @@ function Home() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 pt-40">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-32 md:pt-40 pb-12">
         
         {/* HERO SECTION */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 mb-6">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="lg:col-span-12 bg-[#0a0a0a] border border-white/5 rounded-[3.5rem] p-12 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-16"
+            className="lg:col-span-12 bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16"
           >
-            <div className="relative z-10 max-w-3xl">
-              <div className="flex items-center gap-4 mb-8">
-                <span className="px-4 py-1.5 bg-white/5 text-neutral-400 text-[10px] font-bold tracking-widest rounded-full border border-white/10 uppercase">Pinamar, Argentina</span>
-                <div className="flex items-center gap-2 px-3 py-1 bg-brand-green/10 rounded-full border border-brand-green/20">
-                  <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-brand-green">Disponible</span>
+            <div className="relative z-10 max-w-3xl w-full">
+              <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-6 md:mb-8">
+                <span className="px-3 md:px-4 py-1 md:py-1.5 bg-white/5 text-neutral-400 text-[9px] md:text-[10px] font-bold tracking-widest rounded-full border border-white/10 uppercase">Pinamar, Argentina</span>
+                <div className="flex items-center gap-2 px-2.5 md:px-3 py-1 bg-brand-green/10 rounded-full border border-brand-green/20">
+                  <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-brand-green animate-pulse" />
+                  <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-brand-green">Disponible</span>
                 </div>
               </div>
-              <h1 className="text-7xl md:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-12">
+              <h1 className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words">
                 LUCAS <br />
                 <span className="text-white/20">BARRERA</span>
               </h1>
-              <p className="text-xl md:text-2xl text-neutral-400 font-light max-w-xl leading-relaxed">
+              <p className="text-lg md:text-2xl text-neutral-400 font-light max-w-xl leading-relaxed">
                 Especialista en <span className="text-white font-medium">Experiencia Cliente Premium</span> y Estrategias Digitales de Alto Rendimiento.
               </p>
             </div>
 
-            <div className="relative z-10 flex flex-col gap-8 w-full md:w-auto md:min-w-[300px]">
-              <div className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl">
-                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-green mb-6">Información</p>
+            <div className="relative z-10 flex flex-col gap-6 md:gap-8 w-full md:w-auto md:min-w-[320px]">
+              <div className="p-6 md:p-8 bg-white/[0.02] border border-white/5 rounded-2xl md:rounded-3xl backdrop-blur-xl">
+                 <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-brand-green mb-4 md:mb-6">Información</p>
                  <div className="space-y-4">
                     <a href="mailto:Ale.2020.caba@gmail.com" className="flex flex-col group/item transition-colors hover:bg-white/5 p-2 rounded-xl -m-2">
-                       <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-1 italic">Mail</span>
-                       <span className="text-sm font-mono text-neutral-200 group-hover/item:text-brand-green transition-colors">Ale.2020.caba@gmail.com</span>
+                       <span className="text-[9px] md:text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-1 italic">Mail</span>
+                       <span className="text-xs md:text-sm font-mono text-neutral-200 group-hover/item:text-brand-green transition-colors break-all">Ale.2020.caba@gmail.com</span>
                     </a>
                     <a href="tel:5492254535810" className="flex flex-col group/item transition-colors hover:bg-white/5 p-2 rounded-xl -m-2">
-                       <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-1 italic">Teléfono</span>
-                       <span className="text-sm font-mono text-neutral-200 group-hover/item:text-brand-green transition-colors">2254 53-5810</span>
+                       <span className="text-[9px] md:text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-1 italic">Teléfono</span>
+                       <span className="text-xs md:text-sm font-mono text-neutral-200 group-hover/item:text-brand-green transition-colors">2254 53-5810</span>
                     </a>
                  </div>
               </div>
-              <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" className="w-full h-20 bg-brand-green text-black rounded-[2rem] flex items-center justify-center gap-4 font-black uppercase tracking-widest text-sm hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all group">
+              <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" className="w-full h-16 md:h-20 bg-brand-green text-black rounded-2xl md:rounded-[2rem] flex items-center justify-center gap-3 md:gap-4 font-black uppercase tracking-widest text-xs md:text-sm hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all group">
                 Contactar Ahora
-                <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </a>
             </div>
 
             {/* Background Gradient */}
-            <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] bg-brand-green/10 blur-[160px] rounded-full" />
+            <div className="absolute -top-1/2 -right-1/4 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-brand-green/10 blur-[120px] md:blur-[160px] rounded-full pointer-events-none" />
           </motion.div>
         </div>
 
         {/* BENTO GRID ROW */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-6">
           {/* Vision */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="md:col-span-7 bg-[#0a0a0a] border border-white/5 rounded-[3rem] p-12 flex flex-col justify-center group relative overflow-hidden"
+            className="md:col-span-12 lg:col-span-7 bg-[#0a0a0a] border border-white/5 rounded-3xl md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-center group relative overflow-hidden"
           >
-             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
-                <Briefcase size={80} />
+             <div className="absolute top-0 right-0 p-6 md:p-8 opacity-5 group-hover:opacity-20 transition-opacity">
+                <Briefcase size={80} className="w-16 h-16 md:w-20 md:h-20" />
              </div>
-             <h3 className="text-brand-green text-[10px] font-black uppercase tracking-[0.4em] mb-10">Visión Proactiva</h3>
-             <p className="text-2xl md:text-3xl leading-snug text-neutral-200 font-light italic">
+             <h3 className="text-brand-green text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] mb-6 md:mb-10">Visión Proactiva</h3>
+             <p className="text-xl md:text-3xl leading-snug text-neutral-200 font-light italic">
                "Liderazgo operativo con <span className="text-white font-medium italic">mentalidad digital</span>: transformando la atención al cliente a través de procesos inteligentes."
              </p>
           </motion.div>
@@ -161,20 +161,20 @@ function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="md:col-span-5 bg-[#0a0a0a] border border-white/5 rounded-[3rem] p-12 flex flex-col justify-between hover:border-brand-green/30 transition-all duration-500 group"
+            className="md:col-span-12 lg:col-span-5 bg-[#0a0a0a] border border-white/5 rounded-3xl md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-between hover:border-brand-green/30 transition-all duration-500 group"
           >
-             <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-brand-green group-hover:text-black transition-all">
-                <Globe size={28} />
+             <div className="w-12 h-12 md:w-14 md:h-14 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-brand-green group-hover:text-black transition-all mb-8 lg:mb-0">
+                <Globe size={28} className="w-6 h-6 md:w-7 md:h-7" />
              </div>
              <div className="space-y-4">
-               <h4 className="font-display font-black text-2xl uppercase tracking-tighter italic">Idiomas</h4>
-               <div className="grid grid-cols-2 gap-4">
-                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <p className="text-[10px] font-black text-brand-green uppercase tracking-widest mb-1">Español</p>
+               <h4 className="font-display font-black text-xl md:text-2xl uppercase tracking-tighter italic">Idiomas</h4>
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                 <div className="p-4 bg-white/5 rounded-xl md:rounded-2xl border border-white/5">
+                    <p className="text-[9px] md:text-[10px] font-black text-brand-green uppercase tracking-widest mb-1">Español</p>
                     <p className="text-xs font-bold text-neutral-400">Nativo</p>
                  </div>
-                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <p className="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-1">Inglés</p>
+                 <div className="p-4 bg-white/5 rounded-xl md:rounded-2xl border border-white/5">
+                    <p className="text-[9px] md:text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-1">Inglés</p>
                     <p className="text-xs font-bold text-neutral-400">Competente</p>
                  </div>
                </div>
@@ -315,20 +315,20 @@ function QRPage() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md bg-[#0a0a0a] border border-white/5 rounded-[3.5rem] p-12 text-center relative overflow-hidden"
+        className="w-full max-w-md bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 text-center relative overflow-hidden"
       >
         <div className="relative z-10">
-          <h2 className="text-4xl font-display font-black tracking-tighter mb-4 italic">ACCESO <span className="text-brand-green">DIRECTO</span></h2>
-          <p className="text-neutral-500 text-sm font-medium mb-12">Escanea el código para ver mi trayectoria completa y portafolio digital.</p>
+          <h2 className="text-3xl md:text-4xl font-display font-black tracking-tighter mb-4 italic">ACCESO <span className="text-brand-green">DIRECTO</span></h2>
+          <p className="text-neutral-500 text-xs md:text-sm font-medium mb-8 md:mb-12">Escanea el código para ver mi trayectoria completa y portafolio digital.</p>
           
-          <div className="bg-white p-8 rounded-3xl inline-block shadow-[0_0_50px_rgba(34,197,94,0.15)] mb-12">
+          <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl inline-block shadow-[0_0_50px_rgba(34,197,94,0.15)] mb-8 md:mb-12">
             <QRCodeSVG 
               value={url} 
-              size={240} 
+              size={200} 
               level="H"
               includeMargin={false}
               fgColor="#000000"
-              className="w-full h-auto max-w-[240px]"
+              className="w-full h-auto max-w-[200px] md:max-w-[240px]"
             />
           </div>
 
