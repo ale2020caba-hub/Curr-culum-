@@ -12,10 +12,50 @@ import {
   Code,
   Zap,
   Terminal,
-  Cpu
+  Cpu,
+  QrCode,
+  ArrowLeft
 } from "lucide-react";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
+import { QRCodeSVG } from "qrcode.react";
+import { useEffect } from "react";
 
-export default function App() {
+// Hook to scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+const experiences = [
+  { name: "Casa Fabric", role: "Staff (Temporada)", years: "2024 - 2025" },
+  { name: "M&M Propiedades", role: "Asesor de ventas, desarrollo de sistemas y segmentación de publicidad", years: "2023 - 2024" },
+  { name: "Fabric Sushi Madero", role: "Camarero (Uruguay / MVD)", years: "2023" },
+  { name: "Tienda Café", role: "Barista", years: "2023" },
+  { name: "Coto", role: "Cajero (Temporada)", years: "2023" },
+  { name: "Fabric Sushi Pinamar", role: "Bartender / Camarero", years: "2021-2023" },
+  { name: "Garden Suites", role: "Camarero", years: "2022" },
+  { name: "Tostado Café Club", role: "Barista", years: "2021-2022" },
+  { name: "Fuegos", role: "Bartender", years: "2020-2021" },
+  { name: "Café Martínez", role: "Barista", years: "2020-2021" },
+  { name: "Botavara Club del Mar", role: "Barman / Barista", years: "2020" },
+  { name: "Pueblo Limite / Lebrique", role: "RRPP / Barman", years: "2016-2020" },
+  { name: "Munchi's", role: "Atención / Reposición", years: "2018-2019" },
+  { name: "McDonald's", role: "Staff Operativo", years: "2016-2019" },
+];
+
+const skillCards = [
+  { name: "Atención al público", value: 90, icon: <User size={20} /> },
+  { name: "Trabajo en equipo", value: 92, icon: <Globe size={20} /> },
+  { name: "Responsabilidad", value: 95, icon: <Briefcase size={20} /> },
+  { name: "Comunicación", value: 88, icon: <MessageCircle size={20} /> },
+  { name: "Desarrollo Software", value: 88, icon: <Code size={20} /> },
+  { name: "Inteligencia Artificial", value: 83, icon: <Cpu size={20} /> },
+];
+
+function Home() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -23,34 +63,8 @@ export default function App() {
     restDelta: 0.001
   });
 
-  const experiences = [
-    { name: "Casa Fabric", role: "Staff (Temporada)", years: "2024 - 2025" },
-    { name: "M&M Propiedades", role: "Asesor de ventas, desarrollo de sistemas y segmentación de publicidad", years: "2023 - 2024" },
-    { name: "Fabric Sushi Madero", role: "Camarero (Uruguay / MVD)", years: "2023" },
-    { name: "Tienda Café", role: "Barista", years: "2023" },
-    { name: "Coto", role: "Cajero (Temporada)", years: "2023" },
-    { name: "Fabric Sushi Pinamar", role: "Bartender / Camarero", years: "2021-2023" },
-    { name: "Garden Suites", role: "Camarero", years: "2022" },
-    { name: "Tostado Café Club", role: "Barista", years: "2021-2022" },
-    { name: "Fuegos", role: "Bartender", years: "2020-2021" },
-    { name: "Café Martínez", role: "Barista", years: "2020-2021" },
-    { name: "Botavara Club del Mar", role: "Barman / Barista", years: "2020" },
-    { name: "Pueblo Limite / Lebrique", role: "RRPP / Barman", years: "2016-2020" },
-    { name: "Munchi's", role: "Atención / Reposición", years: "2018-2019" },
-    { name: "McDonald's", role: "Staff Operativo", years: "2016-2019" },
-  ];
-
-  const skillCards = [
-    { name: "Atención al público", value: 90, icon: <User size={20} /> },
-    { name: "Trabajo en equipo", value: 92, icon: <Globe size={20} /> },
-    { name: "Responsabilidad", value: 95, icon: <Briefcase size={20} /> },
-    { name: "Comunicación", value: 88, icon: <MessageCircle size={20} /> },
-    { name: "Desarrollo Software", value: 88, icon: <Code size={20} /> },
-    { name: "Inteligencia Artificial", value: 83, icon: <Cpu size={20} /> },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-brand-green/30">
+    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-brand-green/30 pb-24">
       {/* Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-brand-green z-50 origin-left"
@@ -65,11 +79,14 @@ export default function App() {
           <span className="font-display font-black text-sm tracking-[0.2em] uppercase">Lucas Barrera</span>
         </div>
         <div className="flex gap-4">
-          <a href="https://wa.me/5492254535810" className="text-[10px] font-bold uppercase tracking-widest px-6 py-2.5 bg-brand-green text-black rounded-xl hover:scale-105 transition-all">WhatsApp</a>
+          <Link to="/qr" className="flex items-center justify-center w-10 h-10 bg-white/5 border border-white/10 rounded-xl hover:bg-brand-green hover:text-black transition-all">
+            <QrCode size={18} />
+          </Link>
+          <a href="https://wa.me/5492254535810" target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest px-6 py-2.5 bg-brand-green text-black rounded-xl hover:scale-105 transition-all">WhatsApp</a>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 pt-40 pb-24">
+      <main className="max-w-7xl mx-auto px-6 pt-40">
         
         {/* HERO SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
@@ -165,12 +182,9 @@ export default function App() {
           </motion.div>
         </div>
 
-
-
         {/* EXPERIENCE & SKILLS GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-12">
           
-          {/* Experience List */}
           <div className="lg:col-span-7 space-y-8">
             <div className="flex items-center gap-4 mb-10">
               <h2 className="text-2xl font-display font-black uppercase tracking-widest shrink-0">Trayectoria</h2>
@@ -212,7 +226,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Skills / Right Column */}
           <div className="lg:col-span-5 h-full">
             <div className="sticky top-32 space-y-6">
               <div className="flex items-center gap-4 mb-4">
@@ -245,7 +258,6 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Extra Info Card */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -263,16 +275,14 @@ export default function App() {
               </motion.div>
             </div>
           </div>
-
         </div>
-
       </main>
 
       <motion.footer 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="border-t border-white/5 py-12 px-6 bg-neutral-900/20"
+        className="mt-24 border-t border-white/5 py-12 px-6 bg-[#0a0a0a]"
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
            <div className="flex flex-col items-center md:items-start gap-2">
@@ -287,5 +297,78 @@ export default function App() {
         </div>
       </motion.footer>
     </div>
+  );
+}
+
+function QRPage() {
+  const url = "https://curr-culum-theta.vercel.app/";
+
+  return (
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 selection:bg-brand-green/30">
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-lg px-8 py-5 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-3xl flex justify-between items-center">
+        <Link to="/" className="flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:text-brand-green transition-colors">
+          <ArrowLeft size={16} /> Volver
+        </Link>
+        <span className="font-display font-black text-sm tracking-[0.2em] uppercase">QR CV</span>
+      </nav>
+
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-md bg-[#0a0a0a] border border-white/5 rounded-[3.5rem] p-12 text-center relative overflow-hidden"
+      >
+        <div className="relative z-10">
+          <h2 className="text-4xl font-display font-black tracking-tighter mb-4 italic">ACCESO <span className="text-brand-green">DIRECTO</span></h2>
+          <p className="text-neutral-500 text-sm font-medium mb-12">Escanea el código para ver mi trayectoria completa y portafolio digital.</p>
+          
+          <div className="bg-white p-8 rounded-3xl inline-block shadow-[0_0_50px_rgba(34,197,94,0.15)] mb-12">
+            <QRCodeSVG 
+              value={url} 
+              size={240} 
+              level="H"
+              includeMargin={false}
+              fgColor="#000000"
+              className="w-full h-auto max-w-[240px]"
+            />
+          </div>
+
+          <div className="space-y-6">
+            <div className="flex items-center justify-center gap-4 text-xs font-mono text-neutral-400">
+               <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
+               {url}
+            </div>
+            
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigator.clipboard.writeText(url)}
+              className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-brand-green hover:text-black transition-all"
+            >
+              Copiar Enlace
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Background Gradients */}
+        <div className="absolute -bottom-1/2 -left-1/4 w-[400px] h-[400px] bg-brand-green/10 blur-[100px] rounded-full" />
+        <div className="absolute -top-1/2 -right-1/4 w-[400px] h-[400px] bg-brand-green/5 blur-[100px] rounded-full" />
+      </motion.div>
+
+      <footer className="mt-12 text-center">
+        <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic">Lucas Barrera · Digital Asset</p>
+      </footer>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/qr" element={<QRPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
