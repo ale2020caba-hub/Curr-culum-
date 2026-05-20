@@ -228,7 +228,7 @@ function Home() {
               </div>
               <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words text-glow text-app-text notranslate">
                 <GlitchText text="LUCAS" /> <br />
-                <span className="text-matrix-green/30 opacity-50"><GlitchText text="BARRERA" /></span>
+                <span className="text-brand-green dark:text-matrix-green opacity-90"><GlitchText text="BARRERA" /></span>
               </h1>
               <p className="text-lg md:text-2xl text-app-text-muted font-light max-w-xl leading-relaxed">
                 Profesional con experiencia en atención al público y operaciones dinámicas en entornos de alta demanda. Me destaco por mi <span className="text-app-text font-medium">adaptación rápida y capacidad resolutiva</span>, combinando la empatía de la atención personalizada con la agilidad digital para crear <span className="text-app-text font-medium">conexiones reales</span> y superar expectativas en cada detalle.
