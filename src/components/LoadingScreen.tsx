@@ -14,26 +14,28 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onFinished }) => {
   useEffect(() => {
     let iteration = 0;
     const interval = setInterval(() => {
+      if (iteration >= targetName.length) {
+        clearInterval(interval);
+        setDisplayText(targetName);
+        setTimeout(() => {
+          setPhase(1);
+          setTimeout(onFinished, 1000);
+        }, 500);
+        return;
+      }
+
       setDisplayText(prev => {
         return targetName
           .split("")
           .map((letter, index) => {
             if (letter === " ") return " ";
-            if (index < iteration) {
+            if (index < Math.floor(iteration)) {
               return targetName[index];
             }
             return characters[Math.floor(Math.random() * characters.length)];
           })
           .join("");
       });
-
-      if (iteration >= targetName.length) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setPhase(1);
-          setTimeout(onFinished, 1000);
-        }, 500);
-      }
 
       iteration += 1 / 3;
     }, 40);
