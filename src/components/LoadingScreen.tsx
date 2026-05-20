@@ -52,12 +52,13 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onFinished }) => {
     >
       <div className="relative">
         <motion.div
+          translate="no"
           animate={{ 
             scale: phase === 1 ? 1.1 : 1,
             opacity: phase === 1 ? [1, 0.8, 1] : 1
           }}
           transition={{ duration: 1, repeat: phase === 1 ? Infinity : 0 }}
-          className="text-4xl md:text-7xl lg:text-8xl font-display font-black tracking-tighter text-glow text-matrix-green text-center select-none"
+          className="text-4xl md:text-7xl lg:text-8xl font-display font-black tracking-tighter text-glow text-matrix-green text-center select-none notranslate"
         >
           {displayText}
         </motion.div>

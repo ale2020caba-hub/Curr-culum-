@@ -163,9 +163,9 @@ function Home() {
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-5xl px-8 py-5 bg-app-surface/30 backdrop-blur-2xl border border-app-border rounded-3xl flex justify-between items-center shadow-2xl">
         <div className="flex items-center gap-4">
           <div className="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center">
-            <span className="text-black font-black text-xs">LB</span>
+            <span className="text-black font-black text-xs">CV</span>
           </div>
-          <span translate="no" className="font-display font-black text-sm tracking-[0.2em] uppercase">Lucas Barrera</span>
+          <span translate="no" className="font-display font-black text-sm tracking-[0.2em] uppercase notranslate">Lucas Barrera</span>
         </div>
         <div className="flex items-center gap-3 md:gap-4">
           <button 
@@ -226,7 +226,7 @@ function Home() {
                   <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-brand-green">Disponible</span>
                 </div>
               </div>
-              <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words text-glow text-app-text">
+              <h1 translate="no" className="text-5xl sm:text-7xl lg:text-[9rem] font-display font-black leading-[0.85] tracking-tight mb-8 md:mb-12 break-words text-glow text-app-text notranslate">
                 <GlitchText text="LUCAS" /> <br />
                 <span className="text-matrix-green/30 opacity-50"><GlitchText text="BARRERA" /></span>
               </h1>
@@ -429,7 +429,7 @@ function Home() {
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
            <div className="flex flex-col items-center md:items-start gap-2">
-             <span className="font-display font-black text-2xl tracking-tighter">CV LUCAS</span>
+             <span translate="no" className="font-display font-black text-2xl tracking-tighter notranslate">CV LUCAS</span>
              <p className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic">Partido de Pinamar · 2026</p>
            </div>
            
@@ -500,7 +500,7 @@ function QRPage() {
 
       <footer className="mt-12 text-center space-y-4">
         <div className="text-[9px] font-mono text-matrix-green/40">&gt; System initialized. Matrix connection stable.</div>
-        <p translate="no" className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic">Lucas Barrera · Digital Asset</p>
+        <p translate="no" className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-30 italic notranslate">Lucas Barrera · Digital Asset</p>
       </footer>
     </div>
   );
