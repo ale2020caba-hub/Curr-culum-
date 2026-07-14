@@ -56,3 +56,124 @@
   );
   background-size: 100% 4px;
 }
+
+/* ==========================================================================
+   PRINT STYLES: Perfect high-contrast print-friendly layout
+   ========================================================================== */
+@media print {
+  /* Reset colors to save ink and maximize contrast */
+  html, body {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    font-size: 10pt !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Reset all custom components & cards to standard printable blocks */
+  * {
+    background: transparent !important;
+    color: #1a1a1a !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Section & Title formatting */
+  h1, h2, h3, h4, h5, h6 {
+    color: #000000 !important;
+    font-family: var(--font-display), sans-serif !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  h1 {
+    font-size: 24pt !important;
+    margin-bottom: 8pt !important;
+  }
+
+  h2 {
+    font-size: 16pt !important;
+    margin-top: 16pt !important;
+    margin-bottom: 8pt !important;
+    border-bottom: 1.5px solid #22c55e !important; /* Elegant green accent underline in print */
+    padding-bottom: 3pt !important;
+  }
+
+  h3 {
+    font-size: 13pt !important;
+    margin-bottom: 4pt !important;
+  }
+
+  p, li, span {
+    color: #333333 !important;
+  }
+
+  a {
+    text-decoration: underline !important;
+    color: #1a1a1a !important;
+  }
+
+  /* Hide purely digital, interactive or sound-producing UI elements */
+  button,
+  nav,
+  iframe,
+  .matrix-rain,
+  .truco-game,
+  .terminal-view,
+  .scanline-overlay,
+  .theme-toggle-btn,
+  .expand-toggle-btn,
+  [role="button"],
+  .cursor-glow,
+  footer {
+    display: none !important;
+  }
+
+  /* Format cards as clean list sections and prevent breaking mid-page */
+  .bg-app-surface,
+  .bg-app-surface\/20,
+  .bg-app-surface\/50,
+  .bg-app-bg\/50,
+  div[class*="bg-app-surface"] {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    margin-bottom: 16px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Make sure lists and grids are cleanly stacked and do not split awkwardly */
+  li, 
+  .grid > div {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Adjust spacing for print */
+  .py-24, .py-20, .py-12, .py-16 {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .my-12, .my-10 {
+    margin-top: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Show a subtle URL next to links for print utility */
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt !important;
+    color: #666666 !important;
+  }
+
+  /* Custom badge representation in monochrome */
+  span[class*="bg-brand-green"],
+  span[class*="border-brand-green"] {
+    border: 1px solid #22c55e !important;
+    background: #f0fdf4 !important;
+    color: #166534 !important;
+    font-weight: bold !important;
+  }
+}
