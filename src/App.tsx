@@ -330,7 +330,7 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-app-bg text-app-text font-sans selection:bg-brand-green/30 pb-24 relative overflow-hidden">
+    <div translate="no" className="notranslate min-h-screen bg-app-bg text-app-text font-sans selection:bg-brand-green/30 pb-24 relative overflow-hidden">
       <MatrixRain />
       <TrucoGame />
       <TerminalView />
