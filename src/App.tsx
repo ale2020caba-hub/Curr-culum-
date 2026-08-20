@@ -17,7 +17,10 @@ import {
   ArrowLeft,
   BarChart3,
   Sun,
-  Moon
+  Moon,
+  FileDown,
+  Printer,
+  Download
 } from "lucide-react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
@@ -29,6 +32,7 @@ import TerminalView from "./components/Terminal";
 import TrucoGame from "./components/TrucoGame";
 import GlitchText from "./components/GlitchText";
 import GlitchButton from "./components/GlitchButton";
+import { PdfExportModal } from "./components/PdfExportModal";
 import { useSound } from "./hooks/useSound";
 
 // Hook to scroll to top on route change
@@ -193,7 +197,7 @@ const campaignCases = [
     client: "M&M Propiedades (Desarrollos y Ventas)",
     platform: "Meta Ads & Google Search",
     budget: "U$D 500 / mes",
-    objective: "Adquisición de prospectos de alta intención para propiedades de pozo y terminadas en la costa.",
+    objective: "Adquisición de prospectos de alta intención para propiedades de pozo y terminadas en CABA.",
     strategy: "Campañas de formularios instantáneos en Meta con filtros de calificación estrictos combinadas con anuncios de Google Search para keywords transaccionales (ej: 'comprar departamento en pinamar').",
     audience: "Inversores de real estate de GBA y CABA, personas interesadas en segundas residencias, segmentación por intereses de alto nivel.",
     deliverables: [
@@ -307,6 +311,7 @@ function Home() {
   const [soundsEnabled, setSoundsEnabled] = useState(false);
   const [selectedCase, setSelectedCase] = useState("inmobiliaria");
   const [showAllExperiences, setShowAllExperiences] = useState(false);
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme');
@@ -334,6 +339,12 @@ function Home() {
       <MatrixRain />
       <TrucoGame />
       <TerminalView />
+      <PdfExportModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+        experiences={experiences}
+        campaignCases={campaignCases}
+      />
       <div className={`fixed inset-x-0 bottom-0 h-full w-full scanline-overlay pointer-events-none z-50 mix-blend-overlay opacity-50 ${theme === 'light' ? 'hidden' : ''}`} />
       
       {/* Progress Bar */}
@@ -342,14 +353,25 @@ function Home() {
         style={{ scaleX }}
       />
 
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-5xl px-8 py-5 bg-app-surface/30 backdrop-blur-2xl border border-app-border rounded-3xl flex justify-between items-center shadow-2xl">
-        <div className="flex items-center gap-4">
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-5xl px-6 md:px-8 py-4 md:py-5 bg-app-surface/30 backdrop-blur-2xl border border-app-border rounded-3xl flex justify-between items-center shadow-2xl">
+        <div className="flex items-center gap-3 md:gap-4">
           <div className="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center">
             <span className="text-black font-black text-xs">CV</span>
           </div>
           <span translate="no" className="font-display font-black text-sm tracking-[0.2em] uppercase notranslate">Lucas Barrera</span>
         </div>
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex items-center gap-2 md:gap-3">
+          <button 
+            onClick={() => {
+              setIsPdfModalOpen(true);
+              if (soundsEnabled) playSound('click');
+            }}
+            title="Descargar CV en PDF"
+            className="flex items-center gap-2 px-3 md:px-4 h-10 md:h-12 bg-brand-green/10 border border-brand-green/30 hover:bg-brand-green hover:text-black rounded-xl transition-all text-brand-green text-xs font-black uppercase tracking-wider"
+          >
+            <FileDown size={18} />
+            <span className="hidden sm:inline">Descargar PDF</span>
+          </button>
           <button 
             onClick={toggleTheme}
             className={`flex items-center justify-center w-10 md:w-12 h-10 md:h-12 bg-app-surface/50 border border-app-border rounded-xl transition-all text-app-text-muted hover:text-app-text`}
@@ -431,16 +453,30 @@ function Home() {
                     </a>
                  </div>
               </div>
-              <GlitchButton 
-                href="https://wa.me/5492254535810" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-full h-16 md:h-20 bg-brand-green text-black rounded-2xl md:rounded-[2rem] flex items-center justify-center font-black uppercase tracking-widest text-xs md:text-sm hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all group shadow-lg shadow-brand-green/20"
-              >
-                <WhatsAppIcon size={20} className="md:w-6 md:h-6" />
-                <span>Contactar Ahora</span>
-                <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </GlitchButton>
+              
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    setIsPdfModalOpen(true);
+                    if (soundsEnabled) playSound('click');
+                  }}
+                  className="w-full h-14 md:h-16 bg-white/5 border border-white/10 hover:border-brand-green/40 hover:bg-brand-green/10 text-app-text hover:text-brand-green rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-wider text-xs md:text-sm transition-all group shadow-md"
+                >
+                  <FileDown size={20} className="text-brand-green group-hover:scale-110 transition-transform" />
+                  <span>Descargar CV en PDF</span>
+                </button>
+
+                <GlitchButton 
+                  href="https://wa.me/5492254535810" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-full h-16 md:h-20 bg-brand-green text-black rounded-2xl md:rounded-[2rem] flex items-center justify-center font-black uppercase tracking-widest text-xs md:text-sm hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] transition-all group shadow-lg shadow-brand-green/20"
+                >
+                  <WhatsAppIcon size={20} className="md:w-6 md:h-6" />
+                  <span>Contactar Ahora</span>
+                  <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </GlitchButton>
+              </div>
             </div>
 
             {/* Background Gradient */}
@@ -878,6 +914,34 @@ function Home() {
             </div>
           </div>
         </div>
+
+        {/* PDF EXPORT BANNER */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 p-8 md:p-12 bg-app-surface border border-brand-green/20 rounded-[2.5rem] relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6"
+        >
+          <div className="flex items-center gap-5">
+            <div className="w-14 h-14 rounded-2xl bg-brand-green/10 border border-brand-green/30 flex items-center justify-center text-brand-green shrink-0">
+              <FileDown size={28} />
+            </div>
+            <div>
+              <h3 className="font-display font-black text-xl md:text-2xl text-app-text">¿Necesitás una versión en PDF?</h3>
+              <p className="text-xs md:text-sm text-app-text-muted mt-1">Descargá el currículum completo en formato profesional estándar A4 con un solo clic.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              setIsPdfModalOpen(true);
+              if (soundsEnabled) playSound('click');
+            }}
+            className="px-8 py-4 bg-brand-green text-black font-black uppercase tracking-widest text-xs rounded-2xl hover:scale-105 active:scale-95 transition-all shrink-0 shadow-lg shadow-brand-green/20 flex items-center gap-2"
+          >
+            <Download size={16} />
+            <span>Descargar PDF</span>
+          </button>
+        </motion.div>
       </main>
 
       <motion.footer 
